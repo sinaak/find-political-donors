@@ -9,3 +9,11 @@ def getLine(lineNumber):
 
 
 
+def readline(lineCounter):
+    rawLine =getLine(lineCounter)
+    return rawLine
+
+
+def split(rawLine):
+    splittedRawLine = rawLine.split("|")
+    return splittedRawLine
