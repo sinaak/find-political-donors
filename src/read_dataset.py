@@ -1,5 +1,5 @@
 
-def getLine(lineNumber): 
+def getLine(lineNumber:int): 
     with open("../input/itcont.txt", "r") as fp:
         for i, line in enumerate(fp):
             if i == lineNumber-1:
@@ -9,9 +9,9 @@ def getLine(lineNumber):
 
 
 
-def readline(lineCounter):
-    rawLine =getLine(lineCounter)
-    return rawLine
+def readline(lineCounter:int):
+    rawline =getLine(lineCounter)
+    return rawline
 
 
 def split(rawLine):
