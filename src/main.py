@@ -14,7 +14,6 @@ bx=0
 
 
 #Main Loop Until the Last Line
-print(type(readline(lineCounter)))
 while readline(lineCounter) is not None:    
     #print(lineCounter)
     rawLine = readline(lineCounter)
