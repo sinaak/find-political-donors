@@ -9,14 +9,12 @@ import sys
 lineCounter = 1
 finalResaultsForMedianValsbyzip = []
 finalResaultsForMedianValsByDate = []
-ax = 0
-bx = 0
+
 
 set_input(sys.argv[1])
 set_outputs(sys.argv[2], sys.argv[3])
 # Main Loop Until the Last Line
 while readline(lineCounter) is not None:
-    # print(lineCounter)
     rawLine = readline(lineCounter)
     splittedRawLine = split(rawLine)
     new_donation = Donation(splittedRawLine[0], splittedRawLine[10][:5],
@@ -25,7 +23,7 @@ while readline(lineCounter) is not None:
     if new_donation.has_other_id() and new_donation.is_valid_to_check():
         # Considering just for medianvals_by_zip
         if new_donation.has_valid_zip():
-            Donation.comparison_mode = 1
+            Donation.comparison_mode = 1 # it mean   val_by_zip
             try:
                 index = finalResaultsForMedianValsbyzip[::-
                                                         1].index(new_donation)
@@ -40,7 +38,7 @@ while readline(lineCounter) is not None:
 
         # Considering just for medianvals_by_date
         if new_donation.has_valid_date():
-            Donation.comparison_mode = 2
+            Donation.comparison_mode = 2  # it mean   val_by_date
             try:
                 index = finalResaultsForMedianValsByDate.index(new_donation)
                 old_donation = finalResaultsForMedianValsByDate[index]
@@ -54,13 +52,3 @@ while readline(lineCounter) is not None:
 
 finalResaultsForMedianValsByDate.sort()
 WriteToFile(finalResaultsForMedianValsbyzip, finalResaultsForMedianValsByDate)
-
-
-# TEST
-# print(OTHER_ID)
-# print(CMTE_ID)
-# print(TRANSACTION_AMT)
-# print(checkDataLimitationForOtherID(OTHER_ID))
-# print(checkCMTEID_and_TransactionAmount_structure(CMTE_ID,TRANSACTION_AMT))
-# print(checkTransactionDateStructure(TRANSACTION_DT))
-# print(checkZipcodeStructure(ZIP_CODE))
