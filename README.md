@@ -1,10 +1,14 @@
 # find-political-donors
-Coding Challenge for insight data engineering
+Coding Challenge for insight data engineering:
 
-I didn't add any packages
+I have not added any packages.
 
-You can run this project with the command ./run.sh  give the input from input folder --> itcont.txt and get the output in output folder
+The code can be run using the ./run.sh  command.
 
-As I thought your test case in medianvals_by_date.txt has a typo in first line : C00177436|01312017|384|4|1382 because   1382/4 is not 384 and it is 346
+Input should be given in the “input” folder. Get the output in the “output” folder.
 
-I changed the test case medianvals_by_date.txt and fix that typo
+I believe that the test case medianvals_by_date.txt has a typo in its first line: C00177436|01312017|384|4|1382 
+
+1382/4 is not equal to 384 but 346
+
+So I changed the test case medianvals_by_date.txt and fixed the typo.
