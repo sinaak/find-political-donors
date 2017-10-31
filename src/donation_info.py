@@ -24,6 +24,12 @@ class Donation:
 		elif Donation.comparison_mode == 2:
 			self.number_of_date_donations += 1
 
+	def increase_amount(self, val):
+		if Donation.comparison_mode == 1:
+			self.zip_amount += val
+		elif Donation.comparison_mode == 2:
+			self.date_amount += val
+
 	def update_median(self):
 		if Donation.comparison_mode == 1:
 			self.zip_median = DesideRounding(self.zip_amount / self.number_of_zip_donations)
@@ -49,6 +55,10 @@ class Donation:
 
 		return (year, month, day)
 
+	def copy(self):
+		ret = Donation(self.cmte_id, self.zip_code, self.transaction_dt, self.transaction_amt, self.other_id)
+		ret.__dict__.update(self.__dict__)
+		return ret
 
 	def __eq__(self, other):
 		if Donation.comparison_mode == 1:
@@ -62,6 +72,11 @@ class Donation:
 		else:
 			return self._split_date() < other._split_date()
 
-	
+	def __str__(self):
+		if Donation.comparison_mode == 1:
+			return '{}|{}|{}|{}|{}'.format(self.cmte_id, self.zip_code, self.zip_median, self.number_of_zip_donations, self.zip_amount)
+		elif Donation.comparison_mode == 2:
+			return '{}|{}|{}|{}|{}'.format(self.cmte_id, self.transaction_dt, self.date_median, self.number_of_date_donations, self.date_amount)
+
 	def __repr__(self):
 		return str(self)

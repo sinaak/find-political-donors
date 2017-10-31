@@ -1,6 +1,7 @@
 from read_dataset import readline,split
 from checkEachInputStructure import *
 from write_dataset import WriteToFile
+from donation_info import Donation
 
 
 #Define Some variables
@@ -18,82 +19,39 @@ while readline(lineCounter) is not None:
     #print(lineCounter)
     rawLine = readline(lineCounter)
     splittedRawLine = split(rawLine)
-    CMTE_ID = splittedRawLine[0]
-    ZIP_CODE = splittedRawLine[10][:5]
-    TRANSACTION_DT = splittedRawLine[13]
-    TRANSACTION_AMT = splittedRawLine[14]
-    OTHER_ID = splittedRawLine[15]
+    new_donation = Donation(splittedRawLine[0], splittedRawLine[10][:5],
+        splittedRawLine[13], splittedRawLine[14], splittedRawLine[15])
   
-    if checkDataLimitationForOtherID(OTHER_ID) == True and checkCMTEID_and_TransactionAmount_structure(CMTE_ID,TRANSACTION_AMT) == True:
-  #Considering just for medianvals_by_zip     
-        if checkZipcodeStructure(ZIP_CODE) ==True :
-            
-            if len(finalResaultsForMedianValsbyzip)==0: # just append the fist eligible line
-                new_input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                finalResaultsForMedianValsbyzip.append(new_input)
-                
-               
-            else: # at least len(finalResauls)>=1
-                for i in range(len(finalResaultsForMedianValsbyzip)):
-                    finalResaultsForMedianValsbyzip.reverse()
-                    splittedFR = finalResaultsForMedianValsbyzip[i].split("|")
-                    tempCMTE_ID = splittedFR[0]
-                    tempZIP_CODE = splittedFR[1]
-                    Median = splittedFR[2]
-                    NumberOfSimilarity = splittedFR[3]
-                    TotalAmountOfDonation = splittedFR[4]
-                    finalResaultsForMedianValsbyzip.reverse()
-                    if tempCMTE_ID == CMTE_ID and tempZIP_CODE == ZIP_CODE:
-                        NewTRANSACTION_AMT=int(TotalAmountOfDonation)+int(TRANSACTION_AMT)
-                        NewNumberOfSimilarity = int(NumberOfSimilarity)+1
-                        NewMedian = DesideRounding(NewTRANSACTION_AMT/NewNumberOfSimilarity)  #problem rounding!!
-                        new_input = CMTE_ID+"|"+ZIP_CODE+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
-                        finalResaultsForMedianValsbyzip.append(new_input)
-                        ax=1
-                        #print("vaaaaaaayyyyy")
-                        break
-                    
-                if ax==0:
-                    new_input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                    finalResaultsForMedianValsbyzip.append(new_input)
-                else:
-                    ax=0
+    if new_donation.has_other_id() and new_donation.is_valid_to_check():
+        #Considering just for medianvals_by_zip
+        if new_donation.has_valid_zip():
+            Donation.comparison_mode = 1
+            try:
+                index = finalResaultsForMedianValsbyzip[::-1].index(new_donation)
+                old_donation = finalResaultsForMedianValsbyzip[-index - 1]
+                old_donation = old_donation.copy()
+                old_donation.increase_number()
+                old_donation.increase_amount(new_donation.transaction_amt)
+                old_donation.update_median()
+                finalResaultsForMedianValsbyzip.append(old_donation)
+            except ValueError as err:
+                finalResaultsForMedianValsbyzip.append(new_donation)
 
-    #Considering just for medianvals_by_date                  
-        if checkTransactionDateStructure(TRANSACTION_DT) ==True:
-            
-            if len(finalResaultsForMedianValsByDate)==0: # just append the fist eligible line
-                new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                finalResaultsForMedianValsByDate.append(new_input)
-                
-            else:
-                for i in range(len(finalResaultsForMedianValsByDate)):
-                    splittedFR = finalResaultsForMedianValsByDate[i].split("|")
-                    tempCMTE_ID = splittedFR[0]
-                    tempTRANSACTION_DT = splittedFR[1]
-                    Median = splittedFR[2]
-                    NumberOfSimilarity = splittedFR[3]
-                    TotalAmountOfDonation = splittedFR[4]
-                    if tempCMTE_ID == CMTE_ID and tempTRANSACTION_DT == TRANSACTION_DT:
-                        NewTRANSACTION_AMT = int(TotalAmountOfDonation) + int(TRANSACTION_AMT)
-                        NewNumberOfSimilarity = int(NumberOfSimilarity)+1
-                        NewMedian = DesideRounding(NewTRANSACTION_AMT/NewNumberOfSimilarity)
-                        del finalResaultsForMedianValsByDate[i]
-                        new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
-                        finalResaultsForMedianValsByDate.append(new_input)
-                        bx=1
-                        break
-                if bx==0:
-                    new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                    finalResaultsForMedianValsByDate.append(new_input)
-                else:
-                    bx=0
+        #Considering just for medianvals_by_date                  
+        if new_donation.has_valid_date():
+            Donation.comparison_mode = 2
+            try:
+                index = finalResaultsForMedianValsByDate.index(new_donation)
+                old_donation = finalResaultsForMedianValsByDate[index]
+                old_donation.increase_number()
+                old_donation.increase_amount(new_donation.transaction_amt)
+                old_donation.update_median()
+            except ValueError as err:
+                finalResaultsForMedianValsByDate.append(new_donation)
     
     lineCounter = lineCounter+1
-    
 
-print(finalResaultsForMedianValsbyzip[4])
-print(finalResaultsForMedianValsByDate[1])
+finalResaultsForMedianValsByDate.sort()
 WriteToFile(finalResaultsForMedianValsbyzip,finalResaultsForMedianValsByDate)
 
 
