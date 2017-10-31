@@ -9,14 +9,14 @@ def checkDataLimitationForOtherID(Other_ID):
 
 def checkTransactionDateStructure(Transaction_date):
 
-    if Transaction_date.isdigit() == False:
+    if Transaction_date.isdigit() == False:  # check for digit
         return False
-    elif len(Transaction_date) == 8 and int(Transaction_date[:2])<=12 and int(Transaction_date[2:4])<=31:
+    elif len(Transaction_date) == 8 and int(Transaction_date[:2])<=12 and int(Transaction_date[2:4])<=31: # No. should be 8 tran.date should be less than 13 , 32 
         return True
     else:
         return False
 
-def checkZipcodeStructure(Zipcode):
+def checkZipcodeStructure(Zipcode): # check for zipcode
     if len(Zipcode)>4 and len(Zipcode)<10:
         return True
     else:
