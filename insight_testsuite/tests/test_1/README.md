@@ -1,1 +1,3 @@
-This test has been provided for you so that you can see one example, however, you should be creating your own tests to check that your code runs as expected.
+
+There was a typo in medianvals_by_date.txt  I thought the fist line should be C00177436|01312017|346|4|1382    and not C00177436|01312017|384|4|1382
+
