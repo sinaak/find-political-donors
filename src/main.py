@@ -29,8 +29,8 @@ while readline(lineCounter) is not None:
         if checkZipcodeStructure(ZIP_CODE) ==True :
             
             if len(finalResaultsForMedianValsbyzip)==0: # just append the fist eligible line
-                input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                finalResaultsForMedianValsbyzip.append(input)
+                new_input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
+                finalResaultsForMedianValsbyzip.append(new_input)
                 
                
             else: # at least len(finalResauls)>=1
@@ -44,19 +44,18 @@ while readline(lineCounter) is not None:
                     TotalAmountOfDonation = splittedFR[4]
                     finalResaultsForMedianValsbyzip.reverse()
                     if tempCMTE_ID == CMTE_ID and tempZIP_CODE == ZIP_CODE:
-                        #print(":D")
                         NewTRANSACTION_AMT=int(TotalAmountOfDonation)+int(TRANSACTION_AMT)
                         NewNumberOfSimilarity = int(NumberOfSimilarity)+1
                         NewMedian = DesideRounding(NewTRANSACTION_AMT/NewNumberOfSimilarity)  #problem rounding!!
-                        input = CMTE_ID+"|"+ZIP_CODE+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
-                        finalResaultsForMedianValsbyzip.append(input)
+                        new_input = CMTE_ID+"|"+ZIP_CODE+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
+                        finalResaultsForMedianValsbyzip.append(new_input)
                         ax=1
                         #print("vaaaaaaayyyyy")
                         break
                     
                 if ax==0:
-                    input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                    finalResaultsForMedianValsbyzip.append(input)
+                    new_input = CMTE_ID+"|"+ZIP_CODE+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
+                    finalResaultsForMedianValsbyzip.append(new_input)
                 else:
                     ax=0
 
@@ -64,8 +63,8 @@ while readline(lineCounter) is not None:
         if checkTransactionDateStructure(TRANSACTION_DT) ==True:
             
             if len(finalResaultsForMedianValsByDate)==0: # just append the fist eligible line
-                input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                finalResaultsForMedianValsByDate.append(input)
+                new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
+                finalResaultsForMedianValsByDate.append(new_input)
                 
             else:
                 for i in range(len(finalResaultsForMedianValsByDate)):
@@ -80,13 +79,13 @@ while readline(lineCounter) is not None:
                         NewNumberOfSimilarity = int(NumberOfSimilarity)+1
                         NewMedian = DesideRounding(NewTRANSACTION_AMT/NewNumberOfSimilarity)
                         del finalResaultsForMedianValsByDate[i]
-                        input = CMTE_ID+"|"+TRANSACTION_DT+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
-                        finalResaultsForMedianValsByDate.append(input)
+                        new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+str(NewMedian)+"|"+str(NewNumberOfSimilarity)+"|"+str(NewTRANSACTION_AMT)
+                        finalResaultsForMedianValsByDate.append(new_input)
                         bx=1
                         break
                 if bx==0:
-                    input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
-                    finalResaultsForMedianValsByDate.append(input)
+                    new_input = CMTE_ID+"|"+TRANSACTION_DT+"|"+TRANSACTION_AMT+"|"+"1"+"|"+TRANSACTION_AMT
+                    finalResaultsForMedianValsByDate.append(new_input)
                 else:
                     bx=0
     

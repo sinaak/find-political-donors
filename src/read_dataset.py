@@ -1,5 +1,5 @@
 
-def getLine(lineNumber:int): 
+def getLine(lineNumber): 
     with open("../input/itcont.txt", "r") as fp:
         for i, line in enumerate(fp):
             if i == lineNumber-1:
@@ -9,7 +9,7 @@ def getLine(lineNumber:int):
 
 
 
-def readline(lineCounter:int):
+def readline(lineCounter):
     rawline =getLine(lineCounter)
     return rawline
 
